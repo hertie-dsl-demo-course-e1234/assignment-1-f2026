@@ -4,4 +4,4 @@ Implement ordinary least squares yourself in `starter.py`, standard library only
 `fit_linear_regression`, `predict`, `r_squared` and `solve_linear_system`.
 
 Push to `main` in your assignment repository - that push is your submission.
-Due: Tuesday 13 October 2026, 23:59 (Europe/Berlin). Worth 15% of the final mark.
+Due: Tuesday 8 September 2026, 23:59 (Europe/Berlin). Worth 15% of the final mark.
