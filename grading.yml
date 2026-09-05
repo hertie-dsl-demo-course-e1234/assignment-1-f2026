@@ -1,8 +1,8 @@
-# Assignment 1 - individual, plain Python.
-# The autograder runs solution/tests/ against each student's submission after the deadline
-# and records how many of the hidden tests passed in the `autograde_score` column of
-# classroom-config/grades/assignment-1.csv. That is a count, not a mark: the 15 marks for
-# this assignment are yours to set in `manual_score` and `final_grade`.
-type: individual
-autograde: true
+# INSTRUCTOR-OWNED - defines this assignment for the toolkit. Dates live in the cohort's schedule.yml.
+title: Linear regression from scratch
+type: individual              # individual | group
+submit_via: github            # github | external
+late_window_days: 7           # late work accepted for 7 days after the due date
+late_penalty_per_day: 10%     # of the earned grade, per day started
+autograde: true               # runs tests/ at the cutoff; the count is shown to graders only
 tests: tests
