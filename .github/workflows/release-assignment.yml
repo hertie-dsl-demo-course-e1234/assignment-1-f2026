@@ -1,3 +1,5 @@
+# SYSTEM-OWNED - do not edit, edits here are overwritten. This workflow is
+# re-rendered from the central DSL teaching toolkit by 'Refresh actions' (nightly).
 name: Release assignment
 
 # Generates one private repo per onboarded student from the chosen assignment template
@@ -7,8 +9,16 @@ name: Release assignment
 on:
   workflow_dispatch:
     inputs:
+      cohort_org:
+        description: "Target cohort org"
+        required: true
+        type: choice
+        default: "hertie-dsl-demo-f2026"
+        options:
+          - hertie-dsl-demo-f2025
+          - hertie-dsl-demo-f2026
       course_source_repo:
-        description: "1. Course-org repo to hand out from"
+        description: "Course-org repo to hand out from"
         required: true
         type: choice
         default: "assignment-1-f2026"
@@ -16,20 +26,25 @@ on:
           - assignment-1-f2026
           - assignment-2-f2026
           - assignment-3-project-f2026
-      cohort_org:
-        description: "2. Target cohort org"
-        required: true
-        type: choice
-        default: "hertie-dsl-demo-f2026"
-        options:
-          - hertie-dsl-demo-f2025
-          - hertie-dsl-demo-f2026
       include_solution:
-        description: "3. Also push the model solution from the template's solution branch into every student repo"
+        description: "Also push the solution (from the template's solution branch) into each student repo"
         type: boolean
         default: false
+      type:
+        description: "individual (one repo per student) or group (one per team from teams.csv). auto = whatever the template's grading_config.yml declares (default: individual)"
+        required: true
+        type: choice
+        default: auto
+        options:
+          - auto
+          - individual
+          - group
+      slug:
+        description: "Only if TWO schedule.yml assignments hand out from this template: which one (the schedule key). Leave empty otherwise"
+        required: false
+        default: ""
       dry_run:
-        description: "4. Preview only - list the repos that would be created, create nothing"
+        description: "Preview only - list the repos that WOULD be created, don't create them"
         type: boolean
         default: false
 
@@ -67,7 +82,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4.4.0
         with:
           repository: hertie-data-science-lab/dsl-teaching-toolkit
-          ref: __CENTRAL_REF__
+          ref: main
           # No credential left behind in $GITHUB_WORKSPACE/.git/config. Nothing here ever
           # pushes to the checkout - the central repo is public and read-only to these
           # jobs, and every write goes through `gh`/`gh auth setup-git` against ANOTHER
@@ -85,10 +100,14 @@ jobs:
           COHORT_ORG: ${{ inputs.cohort_org }}
           COURSE_SOURCE_REPO: ${{ inputs.course_source_repo }}
           INC_SOL: ${{ inputs.include_solution }}
+          TYPE: ${{ inputs.type }}
+          SLUG: ${{ inputs.slug }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: |
           gh auth setup-git
           args=(--master-org "$MASTER_ORG" --course-source-repo "$COURSE_SOURCE_REPO" --cohort-org "$COHORT_ORG")
           [ "$INC_SOL" = "true" ] && args+=(--solution)
+          args+=(--type "$TYPE")
+          [ -n "$SLUG" ] && args+=(--slug "$SLUG")
           [ "$DRY_RUN" = "true" ] && args+=(--dry-run)
           python3 -m dsl_course.assign "${args[@]}"
