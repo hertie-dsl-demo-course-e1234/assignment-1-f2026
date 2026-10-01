@@ -7,7 +7,6 @@ Ten test cases, one mark each (grading.yml: max_auto: 10).
 """
 
 import pytest
-
 from starter import (
     fit_linear_regression,
     predict,
@@ -18,8 +17,20 @@ from starter import (
 TOL = 1e-6
 
 # The twelve flats from the lectures: area, distance to metro -> rent.
-HOUSING_X = [[32, 0.3], [45, 0.9], [52, 0.4], [60, 1.6], [68, 0.7], [75, 2.1],
-             [80, 1.1], [95, 0.5], [38, 1.8], [55, 0.6], [110, 1.4], [48, 2.6]]
+HOUSING_X = [
+    [32, 0.3],
+    [45, 0.9],
+    [52, 0.4],
+    [60, 1.6],
+    [68, 0.7],
+    [75, 2.1],
+    [80, 1.1],
+    [95, 0.5],
+    [38, 1.8],
+    [55, 0.6],
+    [110, 1.4],
+    [48, 2.6],
+]
 HOUSING_Y = [540, 510, 640, 545, 720, 620, 770, 860, 420, 640, 930, 400]
 
 
