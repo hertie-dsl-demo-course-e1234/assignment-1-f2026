@@ -3,7 +3,7 @@
 They import the submitted module (`starter.py` at the repository root) and are deliberately
 standard-library only: the grading runner installs pytest and nbconvert, nothing else.
 
-Ten test cases, one mark each (grading.yml: max_auto: 10).
+Ten test cases; the runner reports passed/total to the marker. Annotated in README.md.
 """
 
 import pytest
@@ -39,6 +39,7 @@ def rss(X, y, beta):
 
 
 # --------------------------------------------------------------- solve_linear_system
+# The building block on its own, so a broken solver shows up here, not as every fit failing.
 
 
 def test_solve_two_by_two():
@@ -63,6 +64,7 @@ def test_solve_rejects_singular():
 
 
 # ------------------------------------------------------------ exact recovery
+# Noiseless data has one exact answer, so a pass or fail here is unambiguous.
 
 
 def test_recovers_exact_line():
@@ -80,6 +82,7 @@ def test_recovers_exact_plane_with_negative_slope():
 
 
 # ------------------------------------------------- the defining properties of OLS
+# Real data has no known answer, so test what every correct fit must satisfy.
 
 
 def test_residuals_sum_to_zero():
@@ -110,6 +113,7 @@ def test_no_perturbation_lowers_the_rss():
 
 
 # ------------------------------------------------------------------ r_squared
+# The two boundaries, and the negative case a clamped or abs()-ed answer gets wrong.
 
 
 def test_r_squared_boundaries():
